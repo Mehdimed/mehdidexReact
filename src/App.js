@@ -5,14 +5,14 @@ import Profil from "./routes/profil";
 
 const App = () => {
   return (
+    <BrowserRouter>
     <Layout>
-      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profil" element={<Profil />} />
+          <Route path="/pokemon/:id" element={<Profil />} />
         </Routes>
-      </BrowserRouter>
     </Layout>
+      </BrowserRouter>
   );
 }
 

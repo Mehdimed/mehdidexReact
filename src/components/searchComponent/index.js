@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import fuzzysort from 'fuzzysort';
 
@@ -48,7 +49,9 @@ const SearchItem = styled.div`
 const SearchComponent = () => {
     const [search, setSearch] = useState("");
     const [pokemons, setPokemons] = useState([]);
+    const [pokemon, setPokemon] = useState({});
     const [results, setResults] = useState([]);
+    const navigate = useNavigate();
 
     const getPokemons = async () => {
         const response = await fetch(process.env.REACT_APP_FETCH_URL +"pokemon");
@@ -62,6 +65,17 @@ const SearchComponent = () => {
         setResults(filteredPokemons);
     }
 
+    const selectItem = event => {
+        setSearch(event.target.innerText);
+        setResults([]);
+        setPokemon(pokemons.find(pokemon => pokemon.name === event.target.innerText));
+    }
+
+    const findPokemon = event => {
+        event.preventDefault();
+        navigate(`/pokemon/${pokemon.id}`);
+    }
+
     useEffect(() => {
         getPokemons();
     }, []);
@@ -69,11 +83,11 @@ const SearchComponent = () => {
     return (
         <Container>
             <SearchInput value={search} onChange={filterPokemon}/>
-            <SearchButton>Chercher</SearchButton>
+            <SearchButton onClick={findPokemon}>Chercher</SearchButton>
             {(search.length > 1 && results.length > 0) && 
             <SearchResults>
                 {results.map((pokemon, index) => {
-                    return <SearchItem key={index}>{pokemon.obj.name}</SearchItem>
+                    return <SearchItem onClick={selectItem} key={index}>{pokemon.obj.name}</SearchItem>
                 })}
             </SearchResults>}
         </Container>

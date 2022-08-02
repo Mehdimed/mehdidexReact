@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PokemonInfos from "../../components/pokemonInfos";
 
 const Container = styled.div`
   display: flex;
@@ -9,11 +10,12 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Profil = (props) => {
+
+const Profil = () => {
+  
   return (
     <Container>
-      PROFIL EN COURS...
-      {props.children}
+      <PokemonInfos/>
     </Container>
   );
 }
